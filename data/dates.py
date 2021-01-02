@@ -1,3 +1,5 @@
+
+# Dates of new, half, and full moons
 dates = {
   2020:
   {
