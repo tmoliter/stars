@@ -1,11 +1,9 @@
-from utils import convert_body_to_name, dec_to_ecliptic_lat, find_sha_offset, ra_to_offset_sha
+from utils import convert_body_to_name, dec_to_ecliptic_lat, find_sha_offset, ra_to_offset_sha, earth, sun, other_bodies, ts
 from skyfield.api import load
 import pandas as pd
 import calendar
 from skyfield.magnitudelib import planetary_magnitude
 from data.dates import dates
-
-ts = load.timescale()
 
 def get_planet_data(dates):
     """
@@ -23,10 +21,6 @@ def get_planet_data(dates):
     }
     """
 
-    planets = load('de421.bsp')
-    earth = planets["earth"]
-    other_bodies = planets["venus"], planets["mars"], planets["jupiter barycenter"], planets["saturn barycenter"], planets["sun"], planets["moon"], planets["mercury"]
-    venus, mars, jupiter, saturn, sun, moon, mercury = other_bodies
     data_dict = {"DATES":[]}
 
     sha_offset_data = {"MONTH":[],"sha_offset":[]}

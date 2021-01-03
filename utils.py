@@ -2,6 +2,11 @@ from skyfield.api import load
 import re
 import math
 
+planets = load('de421.bsp')
+earth = planets["earth"]
+other_bodies = planets["venus"], planets["mars"], planets["jupiter barycenter"], planets["saturn barycenter"], planets["sun"], planets["moon"], planets["mercury"]
+venus, mars, jupiter, saturn, sun, moon, mercury = other_bodies
+
 ts = load.timescale()
 
 def convert_body_to_name(body):
