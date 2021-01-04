@@ -1,6 +1,6 @@
 
 # Dates of new, half, and full moons
-dates = {
+hardcoded_lunar_dates = {
   2020:
   {
     12: [1,8,14,23,31]
