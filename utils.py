@@ -64,7 +64,7 @@ def find_sha_offset(dates:datetime):
 
 def ra_to_offset_sha(ra, offset):
     sha = ra_to_sha(ra)
-    return sha - offset if sha > offset else 360 + sha - offsets
+    return sha - offset if sha > offset else 360 + sha - offset
 
 def dec_to_ecliptic_lat(dec_degrees, ra_degrees):
     return dec_degrees - math.degrees(math.atan(math.sin(math.radians(ra_degrees)) * math.tan(math.radians(23.4))))
