@@ -1,15 +1,14 @@
-import itertools
-from typing import Dict, List, Tuple
+from typing import Dict, List
 from skyfield.api import load
-import re
+from skyfield import almanac
 import math
 from datetime import datetime
 import enum
 
 from skyfield.magnitudelib import planetary_magnitude
 
-planets = load("de421.bsp")
-earth = planets["earth"]
+eph = load("de421.bsp")
+earth = eph["earth"]
 
 
 class Exobody(enum.Enum):
@@ -23,13 +22,13 @@ class Exobody(enum.Enum):
 
 
 EXOBODY_BINARY_MAPPING = {
-    Exobody.Sun: planets["sun"],
-    Exobody.Moon: planets["moon"],
-    Exobody.Jupiter: planets["jupiter barycenter"],
-    Exobody.Saturn: planets["saturn barycenter"],
-    Exobody.Venus: planets["venus"],
-    Exobody.Mars: planets["mars"],
-    Exobody.Mercury: planets["mercury"],
+    Exobody.Sun: eph["sun"],
+    Exobody.Moon: eph["moon"],
+    Exobody.Jupiter: eph["jupiter barycenter"],
+    Exobody.Saturn: eph["saturn barycenter"],
+    Exobody.Venus: eph["venus"],
+    Exobody.Mars: eph["mars"],
+    Exobody.Mercury: eph["mercury"],
 }
 EXOBODY_COLORS = {
     Exobody.Sun: "yellow",
@@ -51,6 +50,13 @@ EXOBODY_MEAN_MAGNITUDE = {
 }
 
 ts = load.timescale()
+
+
+def get_lunar_dates_and_phases(start: datetime, end: datetime):
+    times, phases = almanac.find_discrete(
+        ts.from_datetime(start), ts.from_datetime(end), almanac.moon_phases(eph)
+    )
+    return [(time.utc_datetime(), phases[i]) for i, time in enumerate(times)]
 
 
 def monthly_date_list_to_flat_datetimes(year, month, days: List[int]):
@@ -108,7 +114,7 @@ def get_magnitude(date: datetime, body: Exobody):
         return EXOBODY_MEAN_MAGNITUDE[body] * 10
 
 
-def get_planetary_plot_data(dates: List[datetime], bodies: List):
+def get_planetary_plot_data(start: datetime, end: datetime, bodies: List):
     """
     Example return:
     {
@@ -122,6 +128,8 @@ def get_planetary_plot_data(dates: List[datetime], bodies: List):
       }
     }
     """
+
+    dates = [data[0] for data in get_lunar_dates_and_phases(start, end)]
 
     sha_offset = find_sha_offset(dates)
     planetary_plotting_data = {}

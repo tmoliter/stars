@@ -12,7 +12,7 @@ from skyfield.api import load
 import pandas as pd
 import calendar
 from skyfield.magnitudelib import planetary_magnitude
-from data.dates import hardcoded_lunar_dates
+from deprecated_excel_crap.dates import hardcoded_lunar_dates
 
 
 def get_planet_data(hardcoded_lunar_dates):
