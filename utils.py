@@ -1,3 +1,4 @@
+import itertools
 from typing import Dict, List, Tuple
 from skyfield.api import load
 import re
@@ -48,12 +49,12 @@ EXOBODY_MEAN_MAGNITUDE = {
 
 ts = load.timescale()
 
-def convert_body_to_name(body):
-    non_alphabet = re.compile('[^a-zA-Z]')
-    barycenter_string = re.compile(re.escape('barycenter'), re.IGNORECASE)
-    half_cleaned = non_alphabet.sub("",body.target_name)
-    return barycenter_string.sub("", half_cleaned).capitalize()
+def monthly_date_list_to_flat_datetimes(year,month,days:List[int]):
+    return [datetime(year,month,day) for day in days]
 
+def yearly_date_dict_to_flat_datetimes(year, dates:Dict[int,List[int]]):
+    return [date for monthly_dates in [monthly_date_list_to_flat_datetimes(year,month,days) for month, days in dates.items()] for date in monthly_dates]
+    
 def ra_to_sha(ra):
     return 360 - ra
 
@@ -63,17 +64,10 @@ def find_sha_offset(dates:datetime):
 
 def ra_to_offset_sha(ra, offset):
     sha = ra_to_sha(ra)
-    return sha - offset if sha > offset else 360 + sha - offset
+    return sha - offset if sha > offset else 360 + sha - offsets
 
 def dec_to_ecliptic_lat(dec_degrees, ra_degrees):
     return dec_degrees - math.degrees(math.atan(math.sin(math.radians(ra_degrees)) * math.tan(math.radians(23.4))))
-
-def yearly_date_dict_to_datetime(year, dates:Dict[int,List[int]]):
-    datetimes = []
-    for month, days in dates.items():
-        for day in days:
-            datetimes.append(datetime(year, month, day))
-    return datetimes
 
 def get_magnitude(date:datetime, body: Exobody):
     if body in [Exobody.Mercury, Exobody.Venus, Exobody.Jupiter]:

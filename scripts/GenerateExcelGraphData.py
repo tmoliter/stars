@@ -3,9 +3,9 @@ from skyfield.api import load
 import pandas as pd
 import calendar
 from skyfield.magnitudelib import planetary_magnitude
-from data.dates import dates
+from data.dates import hardcoded_lunar_dates
 
-def get_planet_data(dates):
+def get_planet_data(hardcoded_lunar_dates):
     """
     Takes a dictionary of dates and returns planetary data formatted for csv upload
     Example input:
@@ -30,7 +30,7 @@ def get_planet_data(dates):
       "Jupiter Magnitude": [],
     }
 
-    for year, monthly_data in dates.items():
+    for year, monthly_data in hardcoded_lunar_dates.items():
         for month, days in monthly_data.items():
             sha_offset = find_sha_offset(year,month,days,sun,earth)
             sha_offset_data["MONTH"].append(f"{calendar.month_name[month]} {year}")
@@ -65,7 +65,7 @@ def get_planet_data(dates):
     return (data_dict, sha_offset_data)
 
 def generate_data():
-    data, sha_offset_data = get_planet_data(dates)
+    data, sha_offset_data = get_planet_data(hardcoded_lunar_dates)
 
     planet_df = pd.DataFrame(data)
     planet_df.to_csv("./output_files/sha_offsetSHA_and_ecliptic_lats_2020-2021.csv", index=False)
