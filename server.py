@@ -6,6 +6,9 @@ from dateutil.tz import *
 from models.planet import ExobodyNames, Planet
 import urllib.parse as parse
 import dateparser
+import os
+
+ON_HEROKU = os.environ.get("ON_HEROKU")
 
 
 class PlanetServer(BaseHTTPRequestHandler):
@@ -38,7 +41,7 @@ class PlanetServer(BaseHTTPRequestHandler):
             )
 
 
-def run(server_class=HTTPServer, handler_class=PlanetServer, port=8000):
+def run(server_class=HTTPServer, handler_class=PlanetServer, port=80):
     server_address = ("", port)
     httpd = server_class(server_address, handler_class)
 
@@ -47,4 +50,8 @@ def run(server_class=HTTPServer, handler_class=PlanetServer, port=8000):
 
 
 if __name__ == "__main__":
-    run()
+    if ON_HEROKU:
+        port = int(os.environ.get("PORT", 80))
+    else:
+        port = 80
+    run(port=port)
