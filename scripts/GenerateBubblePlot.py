@@ -1,5 +1,6 @@
+from Planet import ExobodyNames, Planet
 from datetime import datetime
-from utils import Exobody, get_planetary_plot_data, yearly_date_dict_to_flat_datetimes
+from utils import get_planetary_plot_data
 import matplotlib.pyplot as plt
 from dateutil.tz import *
 
@@ -9,7 +10,7 @@ fig, ax = plt.subplots()
 def plot_all_bodies(start: datetime, end: datetime):
 
     planetary_plotting_data = get_planetary_plot_data(
-        start, end, [body for body in Exobody]
+        start, end, [Planet(body_name) for body_name in ExobodyNames]
     )
 
     for body, date in planetary_plotting_data.items():

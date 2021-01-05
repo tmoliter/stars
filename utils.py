@@ -1,54 +1,15 @@
+from Planet import ExobodyNames, Planet
 from typing import Dict, List
 from skyfield.api import load
 from skyfield import almanac
 import math
 from datetime import datetime
-import enum
+from data import eph
 
 from skyfield.magnitudelib import planetary_magnitude
 
-eph = load("de421.bsp")
-earth = eph["earth"]
-
-
-class Exobody(enum.Enum):
-    Sun = "Sun"
-    Moon = "Moon"
-    Jupiter = "Jupiter"
-    Saturn = "Saturn"
-    Venus = "Venus"
-    Mars = "Mars"
-    Mercury = "Mercury"
-
-
-EXOBODY_BINARY_MAPPING = {
-    Exobody.Sun: eph["sun"],
-    Exobody.Moon: eph["moon"],
-    Exobody.Jupiter: eph["jupiter barycenter"],
-    Exobody.Saturn: eph["saturn barycenter"],
-    Exobody.Venus: eph["venus"],
-    Exobody.Mars: eph["mars"],
-    Exobody.Mercury: eph["mercury"],
-}
-EXOBODY_COLORS = {
-    Exobody.Sun: "yellow",
-    Exobody.Moon: "grey",
-    Exobody.Jupiter: "maroon",
-    Exobody.Saturn: "orange",
-    Exobody.Venus: "aqua",
-    Exobody.Mars: "crimson",
-    Exobody.Mercury: "fuchsia",
-}
-EXOBODY_MEAN_MAGNITUDE = {
-    Exobody.Sun: 7 + 26.74,
-    Exobody.Moon: 7 + 12.74,
-    Exobody.Jupiter: 7 + 2.20,
-    Exobody.Saturn: 7 - 0.46,
-    Exobody.Venus: 7 + 4.14,
-    Exobody.Mars: 7 - 0.71,
-    Exobody.Mercury: 7 - 0.23,
-}
-
+earth = Planet("Earth")
+sun = Planet(ExobodyNames.Sun)
 ts = load.timescale()
 
 
@@ -79,16 +40,18 @@ def ra_to_sha(ra):
 
 
 def find_sha_offset(dates: datetime):
-    sun_shas = [
-        ra_to_sha(
-            earth.at(ts.utc(date.year, date.month, date.day))
-            .observe(EXOBODY_BINARY_MAPPING[Exobody.Sun])
-            .apparent()
-            .radec(epoch="date")[0]
-            ._degrees
+    sun_shas = []
+    for date in dates:
+        sun_shas.append(
+            ra_to_sha(
+                earth.get_body()
+                .at(ts.utc(date.year, date.month, date.day))
+                .observe(sun.get_body())
+                .apparent()
+                .radec(epoch="date")[0]
+                ._degrees
+            )
         )
-        for date in dates
-    ]
     return sum(sun_shas) / len(sun_shas)
 
 
@@ -103,18 +66,7 @@ def dec_to_ecliptic_lat(dec_degrees, ra_degrees):
     )
 
 
-def get_magnitude(date: datetime, body: Exobody):
-    if body in [Exobody.Mercury, Exobody.Venus, Exobody.Jupiter]:
-        here = earth.at(ts.utc(date.year, date.month, date.day))
-        apparent_magnitude = planetary_magnitude(
-            here.observe(EXOBODY_BINARY_MAPPING[body]).apparent()
-        )
-        return abs(apparent_magnitude) * 10
-    else:
-        return EXOBODY_MEAN_MAGNITUDE[body] * 10
-
-
-def get_planetary_plot_data(start: datetime, end: datetime, bodies: List):
+def get_planetary_plot_data(start: datetime, end: datetime, planets: List[Planet]):
     """
     Example return:
     {
@@ -130,14 +82,13 @@ def get_planetary_plot_data(start: datetime, end: datetime, bodies: List):
     """
 
     dates = [data[0] for data in get_lunar_dates_and_phases(start, end)]
-
     sha_offset = find_sha_offset(dates)
     planetary_plotting_data = {}
 
-    for body in bodies:
+    for planet in planets:
         for date in dates:
-            here = earth.at(ts.utc(date.year, date.month, date.day))
-            apparent = here.observe(EXOBODY_BINARY_MAPPING[body]).apparent()
+            here = earth.get_body().at(ts.utc(date.year, date.month, date.day))
+            apparent = here.observe(planet.get_body()).apparent()
 
             ra, dec, dis = apparent.radec(epoch="date")
 
@@ -146,10 +97,10 @@ def get_planetary_plot_data(start: datetime, end: datetime, bodies: List):
                 dec_to_ecliptic_lat(dec._degrees, ra._degrees),
             )
 
-            if not planetary_plotting_data.get(body.value):
-                planetary_plotting_data[body.value] = []
-            planetary_plotting_data[body.value].append(
-                (x, y, get_magnitude(date, body), EXOBODY_COLORS[body])
+            if not planetary_plotting_data.get(planet.name):
+                planetary_plotting_data[planet.name] = []
+            planetary_plotting_data[planet.name].append(
+                (x, y, planet.get_magnitude(date), planet.get_color())
             )
 
     return planetary_plotting_data
