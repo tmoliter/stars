@@ -84,6 +84,7 @@ def get_planetary_plot_data(start: datetime, end: datetime, planets: List[Planet
     dates = [data[0] for data in get_lunar_dates_and_phases(start, end)]
     sha_offset = find_sha_offset(dates)
     planetary_plotting_data = {}
+    from pprint import pprint
 
     for planet in planets:
         for date in dates:
@@ -97,10 +98,16 @@ def get_planetary_plot_data(start: datetime, end: datetime, planets: List[Planet
                 dec_to_ecliptic_lat(dec._degrees, ra._degrees),
             )
 
-            if not planetary_plotting_data.get(planet.name):
-                planetary_plotting_data[planet.name] = []
-            planetary_plotting_data[planet.name].append(
-                (x, y, planet.get_magnitude(date), planet.get_color(), date)
+            if not planetary_plotting_data.get(planet.get_name()):
+                planetary_plotting_data[planet.get_name()] = []
+            planetary_plotting_data[planet.get_name()].append(
+                {
+                    "x": x,
+                    "y": y,
+                    "magnitude": planet.get_magnitude(date),
+                    "color": planet.get_color(),
+                    "date": date.strftime("%d/%-m/%y"),
+                }
             )
 
     return planetary_plotting_data
