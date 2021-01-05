@@ -67,24 +67,10 @@ def dec_to_ecliptic_lat(dec_degrees, ra_degrees):
 
 
 def get_planetary_plot_data(start: datetime, end: datetime, planets: List[Planet]):
-    """
-    Example return:
-    {
-      "Sun" : {
-        (x, y, magnitude, color, datetime(12/25/20)),
-        (x, y, magnitude, color, datetime(12/25/21)),
-      },
-      "Mercury" : {
-        (x, y, magnitude, color, datetime(12/25/20)),
-        (x, y, magnitude, color, datetime(12/25/21)),
-      }
-    }
-    """
 
     dates = [data[0] for data in get_lunar_dates_and_phases(start, end)]
     sha_offset = find_sha_offset(dates)
     planetary_plotting_data = {}
-    from pprint import pprint
 
     for planet in planets:
         for date in dates:
