@@ -14,23 +14,28 @@ class PlanetServer(BaseHTTPRequestHandler):
         start = (
             dateparser.parse(query_dict.get("start")[0] + " UTC")
             if query_dict.get("start")
-            else datetime(2020, 12, 1, tzinfo=tzutc())
+            else None
         )
         end = (
             dateparser.parse(query_dict.get("end")[0] + " UTC")
             if query_dict.get("end")
-            else datetime(2020, 12, 31, tzinfo=tzutc())
+            else None
         )
         self.send_response(200)
         self.send_header("Content-type", "application/json")
         self.end_headers()
-        self.wfile.write(
-            json.dumps(
-                get_planetary_plot_data(
-                    start, end, [Planet(body_name) for body_name in ExobodyNames]
-                )
-            ).encode("utf-8")
-        )
+        if start and end:
+            self.wfile.write(
+                json.dumps(
+                    get_planetary_plot_data(
+                        start, end, [Planet(body_name) for body_name in ExobodyNames]
+                    )
+                ).encode("utf-8")
+            )
+        else:
+            self.wfile.write(
+                "No start and end date provided in query parameters".encode("utf-8")
+            )
 
 
 def run(server_class=HTTPServer, handler_class=PlanetServer, port=8000):
