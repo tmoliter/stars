@@ -1,4 +1,4 @@
-from Planet import ExobodyNames, Planet
+from models.planet import ExobodyNames, Planet
 from datetime import datetime
 from utils import get_planetary_plot_data
 import matplotlib.pyplot as plt

@@ -1,4 +1,4 @@
-from Planet import ExobodyNames, Planet
+from models.planet import ExobodyNames, Planet
 from typing import Dict, List
 from skyfield.api import load
 from skyfield import almanac
