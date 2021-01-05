@@ -71,12 +71,12 @@ def get_planetary_plot_data(start: datetime, end: datetime, planets: List[Planet
     Example return:
     {
       "Sun" : {
-        datetime(12/25/20): (x, y, magnitude, color),
-        datetime(12/25/21): (x, y, magnitude, color),
+        (x, y, magnitude, color, datetime(12/25/20)),
+        (x, y, magnitude, color, datetime(12/25/21)),
       },
       "Mercury" : {
-        datetime(12/25/20): (x, y, magnitude, color),
-        datetime(12/25/21): (x, y, magnitude, color),
+        (x, y, magnitude, color, datetime(12/25/20)),
+        (x, y, magnitude, color, datetime(12/25/21)),
       }
     }
     """
@@ -100,7 +100,7 @@ def get_planetary_plot_data(start: datetime, end: datetime, planets: List[Planet
             if not planetary_plotting_data.get(planet.name):
                 planetary_plotting_data[planet.name] = []
             planetary_plotting_data[planet.name].append(
-                (x, y, planet.get_magnitude(date), planet.get_color())
+                (x, y, planet.get_magnitude(date), planet.get_color(), date)
             )
 
     return planetary_plotting_data
