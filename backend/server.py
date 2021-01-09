@@ -25,6 +25,7 @@ class PlanetServer(BaseHTTPRequestHandler):
         )
         self.send_response(200)
         self.send_header("Content-type", "application/json")
+        self.send_header("Access-Control-Allow-Origin", "*")
         self.end_headers()
         if start and end:
             self.wfile.write(
