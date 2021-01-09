@@ -1,4 +1,0 @@
-skyfield==1.34
-matplotlib==3.3.3
-dateparser==1.0.0
-python_dateutil==2.8.1
