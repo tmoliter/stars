@@ -13,10 +13,15 @@ def plot_all_bodies(start: datetime, end: datetime):
         start, end, [Planet(body_name) for body_name in ExobodyNames]
     )
 
-    for body, date in planetary_plotting_data.items():
-        for plot_datum in date:
-            x, y, magnitude, color = plot_datum
-            ax.scatter(x, y, s=magnitude, c=color, edgecolors="black")
+    for body, data_by_date in planetary_plotting_data.items():
+        for plot_datum in data_by_date:
+            ax.scatter(
+                plot_datum["x"],
+                plot_datum["y"],
+                s=plot_datum["magnitude"],
+                c=plot_datum["color"],
+                edgecolors="black",
+            )
 
     ax.grid(True)
 

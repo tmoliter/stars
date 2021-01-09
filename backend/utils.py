@@ -67,19 +67,6 @@ def dec_to_ecliptic_lat(dec_degrees, ra_degrees):
 
 
 def get_planetary_plot_data(start: datetime, end: datetime, planets: List[Planet]):
-    """
-    Example return:
-    {
-      "Sun" : {
-        datetime(12/25/20): (x, y, magnitude, color),
-        datetime(12/25/21): (x, y, magnitude, color),
-      },
-      "Mercury" : {
-        datetime(12/25/20): (x, y, magnitude, color),
-        datetime(12/25/21): (x, y, magnitude, color),
-      }
-    }
-    """
 
     dates = [data[0] for data in get_lunar_dates_and_phases(start, end)]
     sha_offset = find_sha_offset(dates)
@@ -97,10 +84,16 @@ def get_planetary_plot_data(start: datetime, end: datetime, planets: List[Planet
                 dec_to_ecliptic_lat(dec._degrees, ra._degrees),
             )
 
-            if not planetary_plotting_data.get(planet.name):
-                planetary_plotting_data[planet.name] = []
-            planetary_plotting_data[planet.name].append(
-                (x, y, planet.get_magnitude(date), planet.get_color())
+            if not planetary_plotting_data.get(planet.get_name()):
+                planetary_plotting_data[planet.get_name()] = []
+            planetary_plotting_data[planet.get_name()].append(
+                {
+                    "x": x,
+                    "y": y,
+                    "magnitude": planet.get_magnitude(date),
+                    "color": planet.get_color(),
+                    "date": date.strftime("%d/%-m/%y"),
+                }
             )
 
     return planetary_plotting_data

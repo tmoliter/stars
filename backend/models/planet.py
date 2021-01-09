@@ -54,7 +54,7 @@ class Planet:
         self.name = name
 
     def get_name(self):
-        self.name.get("value", self.name)
+        return self.name if isinstance(self.name, str) else self.name.value
 
     def get_body(self):
         return (
