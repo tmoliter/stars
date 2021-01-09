@@ -1,3 +1,5 @@
+import * as d3 from 'd3'
+import axios from 'axios'
 //@ts-check
 const margin = { top: 20, bottom: 40, left: 30, right: 20 }
 const width = 800 - margin.left - margin.right
@@ -14,6 +16,8 @@ const svg = d3
 const g = svg
     .append('g')
     .attr('transform', `translate(${margin.left}, ${margin.top})`)
+
+axios.get("http://bugenhagen.herokuapp.com/?start=12-30-2020&end=1-30-2021").then(res => console.log(res))
 
 const data = [
     {
