@@ -1,4 +1,3 @@
-from datetime import datetime
 import json
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from utils import get_planetary_plot_data

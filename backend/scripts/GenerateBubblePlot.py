@@ -13,8 +13,8 @@ def plot_all_bodies(start: datetime, end: datetime):
         start, end, [Planet(body_name) for body_name in ExobodyNames]
     )
 
-    for body, dates in planetary_plotting_data.items():
-        for i, plot_datum in enumerate(dates):
+    for body, data_by_date in planetary_plotting_data.items():
+        for plot_datum in data_by_date:
             ax.scatter(
                 plot_datum["x"],
                 plot_datum["y"],
