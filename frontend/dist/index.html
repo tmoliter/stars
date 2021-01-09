@@ -1,12 +1,17 @@
 <html>
-    <head>
-        <link rel="icon" type="image/png" href="../src/bugenhagen32x32.png" />
-        <meta charset="utf-8" />
-    </head>
-    <body>
-        <p>TEST</p>
-        <p>TEST2</p>
-        <p>TEST3</p>
-        <script src="main.js"></script>
-    </body>
+  <head>
+    <link rel="icon" type="image/png" href="../src/bugenhagen32x32.png" />
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <div>
+      <label for="start">Start date:</label>
+      <input type="date" id="start" name="start" />
+      <label for="end">End date:</label>
+      <input type="date" id="end" name="end" />
+      <button id="submit">SUBMIT</button>
+      <div id="graph"></div>
+    </div>
+    <script src="webpackoutput.js"></script>
+  </body>
 </html>
