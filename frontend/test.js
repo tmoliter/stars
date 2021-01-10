@@ -2,7 +2,6 @@ import * as d3 from "d3";
 import axios from "axios";
 import { schemeDark2 } from "d3";
 //@ts-check
-
 d3.select("#submit").on("click", () => {
   const start = d3.select("#start").property("value");
   const end = d3.select("#end").property("value");
@@ -34,37 +33,6 @@ const makeGraph = (data) => {
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-  const oldShit = [
-    {
-      name: "Steve",
-      age: 10,
-      weight: 30,
-      gender: "male",
-    },
-    {
-      name: "Stan",
-      age: 15,
-      weight: 60,
-      gender: "male",
-    },
-    {
-      name: "Tom",
-      age: 18,
-      weight: 70,
-      gender: "male",
-    },
-    {
-      name: "Marie",
-      age: 18,
-      weight: 58,
-      gender: "female",
-    },
-  ];
-
-  // const color = d3
-  //   .scaleOrdinal()
-  //   .domain(["female", "male"])
-  //   .range(["red", "blue"]);
   const xscale = d3
     .scaleLinear()
     .domain([0, 360])
