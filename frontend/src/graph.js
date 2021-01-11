@@ -1,6 +1,5 @@
 import * as d3 from "d3";
 import axios from "axios";
-import { schemeDark2 } from "d3";
 //@ts-check
 d3.select("#submit").on("click", () => {
   const start = d3.select("#start").property("value");
@@ -52,16 +51,13 @@ const makeGraph = (data) => {
       (exit) => exit.remove()
     );
 
-  function dateClassName(date) {
-    console.log(date)
-    console.log(`date${date.replace(/\//g,'')}`)
-    return `date${date.replace(/\//g,'')}`
-  }
 
   const dateToClassName = {}
 
   flatData.forEach((datum,i) => {
-    dateToClassName[datum.date] = `date${i}`
+    if (!dateToClassName[datum.date]){
+      dateToClassName[datum.date] = `date${i}`
+    }
   })
 
   circles
@@ -69,26 +65,21 @@ const makeGraph = (data) => {
     .attr("cx", xscale(180))
     .attr("cy", yscale(65))
     .style("fill", "white")
-    .attr("class", (planet) => dateClassName(planet.date))
-    // .attr("class", (planet) => dateToClassName[planet.date])
+    .attr("class", (planet) => dateToClassName[planet.date])
     .attr("opacity",1)
 
-  const dateClasses = [... new Set(flatData.map((x) => dateClassName(x.date)))];
+  const totalDates = Object.keys(dateToClassName).length
 
-  dateClasses.forEach((className,i) => {
-      const transition = d3.selectAll(`.${className}`).transition()
-      transition
-        .delay(i * 2000)
-        .duration(2000)
-        .style("fill", (planet) => planet.color)
-        .attr("cy", (planet) => yscale(planet.y))
-        .attr("cx", (planet) => xscale(planet.x));
+  for (let i = 0; i < totalDates - 1; i++) {
 
-      // for (let j = 0; j < i; j++) {
-      //   const oldTransition = d3.selectAll
-      // }
-
-      // const opacity = d3.select(`.${className}`).attr("opacity")
-      // transition.delay
-  })
+    const transition = d3.selectAll(`.date${i}`).transition()
+    const opacity = d3.select(`.date${i}`).attr("opacity")
+    transition
+      .delay(i * 2000)
+      .duration(2000)
+      .style("fill", (planet) => planet.color)
+      .attr("cy", (planet) => yscale(planet.y))
+      .attr("cx", (planet) => xscale(planet.x))
+      .attr("opacity", opacity - ((totalDates - i + 1) *  (.8 / totalDates)));
+  }
 };
