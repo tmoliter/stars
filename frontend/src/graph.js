@@ -41,25 +41,54 @@ const makeGraph = (data) => {
   const group = topLevelG.append("g");
 
   const flatData = Object.values(data).flat();
+  console.log(flatData)
 
-  const marks = group
+  const circles = group
     .selectAll("circle")
     .data(flatData)
     .join(
-      (enter) => {
-        const marks_enter = enter.append("circle");
-        marks_enter.append("title");
-        return marks_enter;
-      },
+      (enter) => enter.append("circle"),
       (update) => update,
       (exit) => exit.remove()
     );
 
-  marks
-    .style("fill", (planet) => planet.color)
-    .attr("r", (planet) => planet.magnitude / 10)
-    .attr("cx", (planet) => xscale(planet.x))
-    .attr("cy", (planet) => yscale(planet.y));
+  function dateClassName(date) {
+    console.log(date)
+    console.log(`date${date.replace(/\//g,'')}`)
+    return `date${date.replace(/\//g,'')}`
+  }
 
-  marks.select("title").text((d) => d.name);
+  const dateToClassName = {}
+
+  flatData.forEach((datum,i) => {
+    dateToClassName[datum.date] = `date${i}`
+  })
+
+  circles
+    .attr("r", (planet) => planet.magnitude / 10)
+    .attr("cx", xscale(180))
+    .attr("cy", yscale(65))
+    .style("fill", "white")
+    .attr("class", (planet) => dateClassName(planet.date))
+    // .attr("class", (planet) => dateToClassName[planet.date])
+    .attr("opacity",1)
+
+  const dateClasses = [... new Set(flatData.map((x) => dateClassName(x.date)))];
+
+  dateClasses.forEach((className,i) => {
+      const transition = d3.selectAll(`.${className}`).transition()
+      transition
+        .delay(i * 2000)
+        .duration(2000)
+        .style("fill", (planet) => planet.color)
+        .attr("cy", (planet) => yscale(planet.y))
+        .attr("cx", (planet) => xscale(planet.x));
+
+      // for (let j = 0; j < i; j++) {
+      //   const oldTransition = d3.selectAll
+      // }
+
+      // const opacity = d3.select(`.${className}`).attr("opacity")
+      // transition.delay
+  })
 };
