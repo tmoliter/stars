@@ -1,6 +1,7 @@
 const path = require("path");
 module.exports = {
-  entry: "./graph.js",
+  mode: "development",
+  entry: "./src/graph.js",
   output: {
     path: path.resolve("dist"),
     filename: "webpackoutput.js",
