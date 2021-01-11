@@ -92,7 +92,7 @@ def get_planetary_plot_data(start: datetime, end: datetime, planets: List[Planet
                     "y": y,
                     "magnitude": planet.get_magnitude(date),
                     "color": planet.get_color(),
-                    "date": date.strftime("%d/%-m/%y"),
+                    "date": date.strftime("/%-m/%d/%y"),
                 }
             )
 
