@@ -35,7 +35,6 @@ const makeGraph = (data) => {
   const xaxis = d3.axisBottom(xscale);
   const yaxis = d3.axisLeft(yscale);
 
-  console.log("1");
   topLevelG.append("g").attr("transform", `translate(0,${height})`).call(xaxis);
   topLevelG.append("g").call(yaxis);
 
