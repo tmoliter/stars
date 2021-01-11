@@ -5,3 +5,5 @@ deprecated_excel_crap
 node_modules
 .prettierignore
 .gitignore
+webpackoutput.js
+assets
