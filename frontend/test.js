@@ -17,8 +17,8 @@ d3.select("#submit").on("click", () => {
 
 const makeGraph = (data) => {
   const margin = { top: 20, bottom: 40, left: 30, right: 20 };
-  const width = 800 - margin.left - margin.right;
-  const height = 600 - margin.top - margin.bottom;
+  const width = 1440 - margin.left - margin.right;
+  const height = 900 - margin.top - margin.bottom;
 
   // Creates sources <svg> element
   const svg = d3
@@ -56,7 +56,7 @@ const makeGraph = (data) => {
     .data(flatData)
     .join(
       (enter) => {
-        const marks_enter = enter.append("circle").attr("r", 10);
+        const marks_enter = enter.append("circle");
         marks_enter.append("title");
         return marks_enter;
       },
@@ -66,6 +66,7 @@ const makeGraph = (data) => {
 
   marks
     .style("fill", (planet) => planet.color)
+    .attr("r", (planet) => planet.magnitude / 10)
     .attr("cx", (planet) => xscale(planet.x))
     .attr("cy", (planet) => yscale(planet.y));
 
