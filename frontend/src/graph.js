@@ -80,6 +80,6 @@ const makeGraph = (data) => {
       .style("fill", (planet) => planet.color)
       .attr("cy", (planet) => yscale(planet.y))
       .attr("cx", (planet) => xscale(planet.x))
-      .attr("opacity", opacity - ((totalDates - i + 1) *  (.8 / totalDates)));
+      .attr("opacity", opacity - ((totalDates - i + 1) *  (.5 / totalDates)));
   }
 };
