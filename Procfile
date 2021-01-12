@@ -1,2 +1,2 @@
-release: cd frontend && weebpack -p
+release: cd frontend && webpack -p
 web: cd backend && python3 server.py
