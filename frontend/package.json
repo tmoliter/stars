@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild" : "node node_modules/webpack/bin/webpack.js --display-error-details"
+    "heroku-postbuild" : "node node_modules/webpack/bin/webpack.js"
   },
   "repository": {
     "type": "git",
@@ -24,8 +24,6 @@
     "webpack-cli": "^4.3.1"
   },
   "devDependencies": {
-    "prettier": "2.2.1",
-    "webpack": "^5.12.2",
-    "webpack-cli": "^4.3.1"
+    "prettier": "2.2.1"
   }
 }
