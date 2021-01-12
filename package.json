@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "preinstall": "cd frontend && npm install",
-    "heroku-postbuild": "node node_modules/webpack/bin/webpack.js"
+    "heroku-postbuild": "cd frontend && node node_modules/webpack/bin/webpack.js"
   },
   "repository": {
     "type": "git",
