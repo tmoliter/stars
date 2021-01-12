@@ -18,11 +18,11 @@
   "homepage": "https://github.com/tmoliter/stars#readme",
   "dependencies": {
     "axios": "^0.21.1",
-    "d3": "^6.3.1"
-  },
-  "devDependencies": {
-    "prettier": "2.2.1",
+    "d3": "^6.3.1",
     "webpack": "^5.12.2",
     "webpack-cli": "^4.3.1"
+  },
+  "devDependencies": {
+    "prettier": "2.2.1"
   }
 }

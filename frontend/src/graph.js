@@ -1,13 +1,12 @@
 import * as d3 from "d3";
 import axios from "axios";
-import { schemeDark2 } from "d3";
 //@ts-check
 d3.select("#submit").on("click", () => {
   const start = d3.select("#start").property("value");
   const end = d3.select("#end").property("value");
   if (start && end) {
     axios
-      .get(`http://bugenhagen.herokuapp.com/?start=${start}&end=${end}`)
+      .get(`http://bugenhagen.herokuapp.com/data?start=${start}&end=${end}`)
       .then((res) => {
         makeGraph(res.data);
       });

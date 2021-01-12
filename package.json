@@ -1,0 +1,20 @@
+{
+  "name": "bugenhagen-top-level",
+  "version": "1.0.0",
+  "description": "planets n stuff",
+  "private": true,
+  "scripts": {
+    "preinstall": "cd frontend && npm install",
+    "heroku-postbuild": "cd frontend && node node_modules/webpack/bin/webpack.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tmoliter/stars.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tmoliter/stars/issues"
+  },
+  "homepage": "https://github.com/tmoliter/stars#readme"
+}

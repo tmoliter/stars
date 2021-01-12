@@ -4,6 +4,6 @@ module.exports = {
   entry: "./src/graph.js",
   output: {
     path: path.resolve("dist"),
-    filename: "webpackoutput.js",
+    filename: "../../backend/dist/webpackoutput.js",
   },
 };
