@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "planets n stuff",
   "private": true,
-  "start": {
-    "postinstall": "cd frontend && npm install"
+  "scripts": {
+    "preinstall": "cd frontend && npm install"
   },
   "repository": {
     "type": "git",
