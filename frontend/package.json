@@ -4,6 +4,7 @@
   "description": "planets n stuff",
   "private": true,
   "scripts": {
+    "heroku-prebuild": "npm install --dev",
     "test": "echo \"Error: no test specified\" && exit 1",
     "heroku-postbuild": "webpack -p"
   },
