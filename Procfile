@@ -1,1 +1,1 @@
-release: cd frontend && webpack -p
+web: python3 server.py 
