@@ -46,6 +46,14 @@ class PlanetServer(SimpleHTTPRequestHandler):
         elif parsed_url.path == "" or parsed_url.path == "/":
             self.path = "/dist/"
             return SimpleHTTPRequestHandler.do_GET(self)
+        elif (
+            parsed_url.path
+            == "/.well-known/acme-challenge/XyEed2p6wHYMLihcSiHHgs4-QMjM3Q35qhLVqC_HLec"
+            or "/.well-known/acme-challenge"
+            or ".well-known/acme-challenge"
+        ):
+            self.path = "/.well-known/acme-challenge/XyEed2p6wHYMLihcSiHHgs4-QMjM3Q35qhLVqC_HLec"
+            return SimpleHTTPRequestHandler.do_GET(self)
         else:
             return SimpleHTTPRequestHandler.do_GET(self)
 
