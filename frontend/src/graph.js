@@ -1,12 +1,19 @@
 import * as d3 from "d3";
 import axios from "axios";
 //@ts-check
+
+const MILLISECONDS_IN_ONE_DAY = 86400000
+
 d3.select("#submit").on("click", () => {
   const start = d3.select("#start").property("value");
   const end = d3.select("#end").property("value");
   if (start && end) {
+  //   if ((end - start) < 0 || (end - start).month > MILLISECONDS_IN_ONE_DAY * 62) {
+  //     d3.select("#info").attr("style", "color:red").text("Please enter a valid date range no more than 2 months in length")
+  //     return
+  //   }
     axios
-      .get(`http://bugenhagen.herokuapp.com/data?start=${start}&end=${end}`)
+      .get(`/data?start=${start}&end=${end}`)
       .then((res) => {
         makeGraph(res.data);
       });
@@ -81,5 +88,12 @@ const makeGraph = (data) => {
       .attr("cy", (planet) => yscale(planet.y))
       .attr("cx", (planet) => xscale(planet.x))
       .attr("opacity", opacity - ((totalDates - i + 1) *  (.5 / totalDates)));
+
+    const date = d3.select(`.date${i}`).data()[0].date
+    d3.select("#info").append("div").attr("style", "color:black, white-space: pre-wrap").text(JSON.stringify(date))
+
   }
+    d3.select("#info").text("The following dates are nights with quarter, new, or full moons. The planets' place in the ecliptic will display in this order:")
+  
+
 };
