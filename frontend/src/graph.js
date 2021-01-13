@@ -12,6 +12,7 @@ d3.select("#submit").on("click", () => {
   //     d3.select("#info").attr("style", "color:red").text("Please enter a valid date range no more than 2 months in length")
   //     return
   //   }
+    d3.select("#info").text("LOADING.......")
     axios
       .get(`/data?start=${start}&end=${end}`)
       .then((res) => {
