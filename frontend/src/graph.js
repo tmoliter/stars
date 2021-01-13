@@ -6,7 +6,7 @@ d3.select("#submit").on("click", () => {
   const end = d3.select("#end").property("value");
   if (start && end) {
     axios
-      .get(`http://bugenhagen.herokuapp.com/data?start=${start}&end=${end}`)
+      .get(`/data?start=${start}&end=${end}`)
       .then((res) => {
         makeGraph(res.data);
       });
