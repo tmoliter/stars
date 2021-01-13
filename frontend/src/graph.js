@@ -94,7 +94,7 @@ const makeGraph = (data) => {
     d3.select("#info").append("div").attr("style", "color:black, white-space: pre-wrap").text(JSON.stringify(date))
 
   }
-    d3.select("#info").text("The following dates are nights with quarter, new, or full moons. The planets' place in the ecliptic will display in this order:")
+    d3.select("#info").text("The following chart represents days with quarter, new, or full moons. The planets' place in the ecliptic will display in this order.")
   
 
 };
